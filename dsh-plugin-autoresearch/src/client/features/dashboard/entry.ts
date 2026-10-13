@@ -7,7 +7,8 @@
 
 // Type-only: pulls the 'shell.overlay' SlotMap merge into scope (erased at runtime).
 import type {} from "@deepseek-ai/dsh-client-ui-layout/client";
-import type { ClientContext } from "@deepseek-ai/dsh-client-runtime/client";
+import type {} from "@deepseek-ai/dsh-client-ui-renderer/client";
+import type { Context as ClientContext } from "@deepseek-ai/cordis";
 import type { ToolCallViewProps } from "@deepseek-ai/dsh-client-ui-tool/client";
 import { type ReactNode, createElement } from "react";
 import "./ar.nomodule.css";

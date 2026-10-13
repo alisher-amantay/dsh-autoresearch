@@ -12,6 +12,7 @@
 
 import { defineTool } from "@deepseek-ai/dsh-tools";
 import type { ContentBlock } from "@deepseek-ai/dsh-llm";
+import type { JsonValue } from "@deepseek-ai/dsh-util-values";
 import type { ExperimentService } from "../app/experiment-service";
 
 /** Model-facing text render shared by all three tools. */
@@ -76,9 +77,9 @@ export function buildAutoResearchTools(service: ExperimentService) {
     output: { schema: { type: "json" }, render },
     async execute(args, exec) {
       const r = service.resolveAgent(exec as never);
-      if ("error" in r) return { ok: false, error: r.error, text: "❌ " + r.error } as unknown as import("@deepseek-ai/dsh-session").JsonValue;
+      if ("error" in r) return { ok: false, error: r.error, text: "❌ " + r.error } as unknown as JsonValue;
       const outcome = service.initExperiment(r.runtime, args as never);
-      return lossless({ ...outcome.value, text: outcome.text }) as unknown as import("@deepseek-ai/dsh-session").JsonValue;
+      return lossless({ ...outcome.value, text: outcome.text }) as unknown as JsonValue;
     },
   });
 
@@ -106,9 +107,9 @@ export function buildAutoResearchTools(service: ExperimentService) {
     output: { schema: { type: "json" }, render },
     async execute(args, exec) {
       const r = service.resolveAgent(exec as never);
-      if ("error" in r) return { ok: false, error: r.error, text: "❌ " + r.error } as unknown as import("@deepseek-ai/dsh-session").JsonValue;
+      if ("error" in r) return { ok: false, error: r.error, text: "❌ " + r.error } as unknown as JsonValue;
       const outcome = await service.runExperiment(r.runtime, args as never, exec.signal);
-      return lossless({ ...outcome.value, text: outcome.text }) as unknown as import("@deepseek-ai/dsh-session").JsonValue;
+      return lossless({ ...outcome.value, text: outcome.text }) as unknown as JsonValue;
     },
   });
 
@@ -166,9 +167,9 @@ export function buildAutoResearchTools(service: ExperimentService) {
     output: { schema: { type: "json" }, render },
     async execute(args, exec) {
       const r = service.resolveAgent(exec as never);
-      if ("error" in r) return { ok: false, error: r.error, text: "❌ " + r.error } as unknown as import("@deepseek-ai/dsh-session").JsonValue;
+      if ("error" in r) return { ok: false, error: r.error, text: "❌ " + r.error } as unknown as JsonValue;
       const outcome = await service.logExperiment(r.runtime, args as never);
-      return lossless({ ...outcome.value, text: outcome.text }) as unknown as import("@deepseek-ai/dsh-session").JsonValue;
+      return lossless({ ...outcome.value, text: outcome.text }) as unknown as JsonValue;
     },
   });
 

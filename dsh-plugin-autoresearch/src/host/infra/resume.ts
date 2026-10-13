@@ -21,6 +21,17 @@ import { ExperimentService } from "../app/experiment-service";
 import type { SessionRuntime } from "../app/experiment-service";
 import { autoResumeStopReason } from "../domain/resume-policy";
 
+declare module "@deepseek-ai/dsh-llm" {
+  interface MessageSourceMap {
+    /** Auto-resume continuation queued by the autoresearch loop. */
+    autoresearch: {
+      readonly kind: "autoresearch";
+      readonly form: "notice";
+      readonly summary: string;
+    };
+  }
+}
+
 /** Outlasts the agent loop's internal retry timing (pi parity). */
 const SETTLED_WINDOW_MS = 800;
 
@@ -165,8 +176,7 @@ export class AutoResumeInjector {
       const message = createUserMessage({
         content: [{ type: "text", text: composeResumeMessage(runtime) }],
         source: {
-          kind: "plugin",
-          plugin: "autoresearch",
+          kind: "autoresearch",
           form: "notice",
           summary: boundContextSummary(
             `autoresearch auto-resume — run the next iteration (turn ${runtime.autoResumeTurns})`,
