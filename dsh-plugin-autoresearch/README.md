@@ -24,10 +24,6 @@ DSH port of [pi-autoresearch](https://github.com/davebcn87/pi-autoresearch): an 
 - `GET /autoresearch/detect?sessionId=` — past-session scan; returns `{ attached, unattached }` (shallow `.auto/` scan around live conversations' workdirs, depth 2, skips hidden/dependency dirs)
 - `POST /autoresearch/stop` / `POST /autoresearch/resume` — loop + run control (JSON body)
 
-## Experiment resource hygiene
-
-The bundled `autoresearch-create` skill instructs the agent that any instance or resource an experiment spins up (cloud VMs/GPUs, containers, servers, background processes) must be taken down as soon as that experiment finishes — kept, discarded, or crashed — ideally via a `trap ... EXIT` in `.auto/measure.sh`, and that nothing is carried over into the next iteration.
-
 ## Layout
 
 `docs/ARCHITECTURE.md` is the layering standard — machine-checked on every `pnpm test` by `tests/architecture.test.ts`.
