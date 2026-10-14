@@ -37,6 +37,24 @@ measurable metric (latency, size, accuracy, score...).
 5. Call \`init_experiment\` with the session name, metric name, unit, direction.
 6. Run the benchmark with \`run_experiment\`, then \`log_experiment\` (title, summary,
    and description carrying the full evidence).
+
+## Cleanup of instances and resources
+
+If an experiment spins up anything that keeps running or costs money (cloud
+GPU/VM instances, Modal apps, containers, dev servers, background processes,
+temporary volumes or databases), it MUST be taken down as soon as that
+experiment finishes — whether the run was kept, discarded, crashed, or failed
+its checks.
+
+- Make \`.auto/measure.sh\` clean up after itself (e.g. a \`trap ... EXIT\`
+  that tears down what it started), so teardown also happens on timeout or crash.
+- Before \`log_experiment\`, verify nothing from the run is still alive
+  (list instances/processes) and stop leftovers explicitly.
+- Never carry an instance over to the next iteration; each iteration starts
+  clean and provisions what it needs.
+- When the loop ends or is interrupted, tear down everything still running and
+  mention it in the final log entry.
+
 ## Loop rules
 
 - After \`log_experiment\`, immediately start the next iteration. NEVER STOP.
